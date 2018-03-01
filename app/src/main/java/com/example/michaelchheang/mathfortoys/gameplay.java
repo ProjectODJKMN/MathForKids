@@ -2,26 +2,26 @@ package com.example.michaelchheang.mathfortoys;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.view.View;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
+
 
 public class gameplay extends AppCompatActivity {
 
     private QuestionLibrary mQuestionLibrary = new QuestionLibrary();
+
     private TextView mScoreView;
     private TextView mQuestionView;
     private Button mButtonChoice1;
     private Button mButtonChoice2;
     private Button mButtonChoice3;
     private Button mButtonChoice4;
-    private ArrayList<Button> buttonList = new ArrayList<Button>();
+    private ArrayList<Button> buttons = new ArrayList<>();
+
     private String mAnswer;
     private int mScore = 0;
 
@@ -36,12 +36,14 @@ public class gameplay extends AppCompatActivity {
         mButtonChoice2 = (Button) findViewById(R.id.choice2_button);
         mButtonChoice3 = (Button) findViewById(R.id.choice3_button);
         mButtonChoice4 = (Button) findViewById(R.id.choice4_button);
-        buttonList.add(mButtonChoice1);
-        buttonList.add(mButtonChoice2);
-        buttonList.add(mButtonChoice3);
-        buttonList.add(mButtonChoice4);
+
+        buttons.add(mButtonChoice1);
+        buttons.add(mButtonChoice2);
+        buttons.add(mButtonChoice3);
+        buttons.add(mButtonChoice4);
 
         updateQuestion();
+
         mButtonChoice1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,16 +97,14 @@ public class gameplay extends AppCompatActivity {
             }
         });
     }
-
-    private void updateQuestion() {
+    private void updateQuestion(){
         mQuestionView.setText(mQuestionLibrary.getKQuestion());
-        Collections.shuffle(buttonList);
-        buttonList.get(0).setText(String.valueOf(mQuestionLibrary.getChoice1()));
-        buttonList.get(1).setText(String.valueOf(mQuestionLibrary.getChoice2()));
-        buttonList.get(2).setText(String.valueOf(mQuestionLibrary.getChoice3()));
-        buttonList.get(3).setText(String.valueOf(mQuestionLibrary.getChoice4()));
-
+        Collections.shuffle(buttons);
         mAnswer = String.valueOf(mQuestionLibrary.getAnswer());
+        buttons.get(0).setText(mAnswer);
+        for (int i = 1; i < buttons.size(); i++){
+            buttons.get(i).setText(String.valueOf(mQuestionLibrary.getChoice(i)));
+        }
     }
 
     private void updateScore(int mScore) {
